@@ -26,7 +26,6 @@ TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 #define YELLOW  0xFFE0
 #define WHITE   0xFFFF
 
-
 Elegoo_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 
 Graph graph(&tft);
@@ -39,25 +38,13 @@ void setup(void) {
   tft.begin(identifier);
 
   tft.fillScreen(BLACK);
-  graph.initGraph();
-  int width = tft.width();
-
-  for(long x = 1; x<= width; x++) {
-    plotOnGraph(graph, x);
-  }
+  graph.plot(plotFunction);
 }
 
-void plotOnGraph(Graph graph, int x) {
-  int graphXMin1 = graph.graphX(x-1);
-  int graphX = graph.graphX(x);
-  graph.drawLine(graphXMin1, plotFunction(graphXMin1), graphX, plotFunction(graphX));
-}
-
-long plotFunction(long x) {
+int plotFunction(int x) {
   float x_rad = x * M_PI / 180;
-  return 20*cos(20*x_rad);
+  return 20 * cos(20*x_rad);
 }
 
 void loop() {
-
 }

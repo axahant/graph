@@ -1,5 +1,5 @@
 #include "Graph.h"
-//#include <Elegoo_TFTLCD.h>
+#include <Elegoo_TFTLCD.h>
 
 #define	BLACK   0x0000
 #define	BLUE    0x001F
@@ -53,4 +53,13 @@ void Graph::drawPoint(int x, int y) {
 
 void Graph::drawLine(int x1, int y1, int x2, int y2) {
   tft->drawLine(translateX(x1), translateY(y1), translateX(x2), translateY(y2), YELLOW);
+}
+
+void Graph::plot(int (*plotFunction)(int x)) {
+  initGraph();
+  for(long x = 1; x<= width; x++) {
+    int graphCurrentX = graphX(x);
+    int graphPreviousX = graphX(x-1);
+    drawLine(graphPreviousX, (*plotFunction)(graphPreviousX), graphCurrentX, (*plotFunction)(graphCurrentX));
+  }
 }
